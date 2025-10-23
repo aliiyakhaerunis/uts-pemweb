@@ -81,7 +81,7 @@
             
             <?php if (isset($_POST['submit'])): ?>
                 <div class="success-message">
-                    Registrasi Berhasil!
+                    Registrasi Berhasil !!
                 </div>
                 
                 <div class="back-button">
