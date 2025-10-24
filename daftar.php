@@ -19,7 +19,7 @@
                 padding: 30px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                max-width: 600px;
+                max-width: 800px;
                 width: 100%;
             }
             h1{
@@ -38,6 +38,26 @@
                 text-align: center;
                 font-weight: bold;
             }
+            .error-message{
+                background-color: #f8d7da;
+                color: #721c24;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid #f5c6cb;
+                border-radius: 5px;
+                text-align: center;
+            }
+            .error-icon{
+                color: #dc3545;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .error-text{
+                color: #721c24;
+                font-size: 14px;
+                font-weight: bold;
+            }
             table{
                 width: 100%;
                 border-collapse: collapse;
@@ -46,13 +66,13 @@
             th, td{
                 padding: 12px;
                 text-align: left;
-                border-bottom: 1px solid #ddd;
+                border: 1px solid #ddd;
             }
             th{
-                background-color: #f8f9fa;
+                background-color: white;
                 font-weight: bold;
                 color: #333;
-                width: 30%;
+                text-align: center;
             }
             td{
                 color: #666;
@@ -79,23 +99,72 @@
         <div class="container">
             <h1>Data Registrasi User</h1>
             
-            <?php if (isset($_POST['submit'])): ?>
-                <div class="success-message">
-                    Registrasi Berhasil !!
-                </div>
+            <?php 
+            if (isset($_POST['submit'])) {
+                $nama_depan = $_POST['nama_depan'];
+                $nama_belakang = $_POST['nama_belakang'];
+                $umur = intval($_POST['umur']);
+                $asal_kota = $_POST['asal_kota'];
+                $nama_lengkap = $nama_depan . " " . $nama_belakang;
                 
-                <div class="back-button">
-                    <a href="index.html">Kembali ke Form Registrasi</a>
-                </div>
-            <?php else: ?>
-                <div style="text-align: center; color: #dc3545; padding: 20px;">
-                    <h3>Error: Data tidak ditemukan</h3>
-                    <p>Silakan isi form registrasi terlebih dahulu.</p>
-                    <div class="back-button">
-                        <a href="index.html">Kembali ke Form Registrasi</a>
-                    </div>
-                </div>
-            <?php endif; ?>
+                if ($umur < 10) {
+                    echo '<div class="error-message">';
+                    echo '<div style="color: #dc3545; font-size: 24px; font-weight: bold; margin-bottom: 10px;">✖ <span style="color: #721c24;">Error!</span></div>';
+                    echo '<div class="error-text">Umur harus minimal 10 tahun!</div>';
+                    echo '</div>';
+                    echo '<div class="back-button">';
+                    echo '<a href="index.html">Kembali ke Form Registrasi</a>';
+                    echo '</div>';
+                } else {
+                    echo '<div class="success-message">';
+                    echo 'Registrasi Berhasil !!';
+                    echo '</div>';
+                    
+                    echo '<table>';
+                    echo '<tr>';
+                    echo '<th>No</th>';
+                    echo '<th>Nama Lengkap</th>';
+                    echo '<th>Umur</th>';
+                    echo '<th>Asal Kota</th>';
+                    echo '</tr>';
+                    
+                    $counter = 0;
+                    $nomor = 1; 
+                    
+                    while ($counter < $umur) {
+
+                        if ($nomor == 7 || $nomor == 13) {
+                            $nomor += 2;
+                            continue;
+                        }
+                        
+                        echo '<tr>';
+                        echo '<td style="text-align: center;">' . $nomor . '</td>';
+                        echo '<td>' . $nama_lengkap . '</td>';
+                        echo '<td style="text-align: center;">' . $umur . '</td>';
+                        echo '<td>' . $asal_kota . '</td>';
+                        echo '</tr>';
+                        
+                        $nomor += 2;
+                        $counter++;
+                    }
+                    
+                    echo '</table>';
+                    
+                    echo '<div class="back-button">';
+                    echo '<a href="index.html">Kembali ke Form Registrasi</a>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<div style="text-align: center; color: #dc3545; padding: 20px;">';
+                echo '<h3>Error: Data tidak ditemukan</h3>';
+                echo '<p>Silakan isi form registrasi terlebih dahulu.</p>';
+                echo '<div class="back-button">';
+                echo '<a href="index.html">Kembali ke Form Registrasi</a>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
     </body>
 </html>
